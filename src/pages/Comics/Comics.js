@@ -4,18 +4,45 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { Dodecahedron } from "@react-three/drei";
 
+// component
+import Fav from "../../components/Fav/Fav.js";
+
 const Comics = ({ token }) => {
-  const [data, setData] = useState();
+  const [offerlist, setOfferlist] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [idfav, setIdfav] = useState("");
+
   const [cart, setCart] = useState([]);
   const newCart = [...cart];
   const navigate = useNavigate();
+
+  const handleFav = async (event) => {
+    try {
+      event.preventDefault();
+
+      const response = await axios.post(`http://localhost:4000/fav`, {
+        token: token,
+        idfav: idfav,
+      });
+      console.log(response.data);
+      console.log(token);
+      console.log(idfav);
+
+      console.log("Fav ajouté à la BDD");
+
+      alert("Fav ajouté à la BDD");
+    } catch (error) {
+      console.log(error);
+      console.log(error.message);
+      console.log(error.response.status);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/comics`);
-        setData(response.data);
+        setOfferlist(response.data);
         setIsLoading(false);
         console.log(response.data);
       } catch (error) {
@@ -32,11 +59,12 @@ const Comics = ({ token }) => {
     <div className="container">
       <h1>Choissisez vos comics préférés</h1>
       <div className="carousel">
-        {data.results.map((result) => {
+        {offerlist.results.map((result) => {
           const imageCarousel =
             result.thumbnail.path +
             "/portrait_fantastic." +
             result.thumbnail.extension;
+
           return (
             <div className="card">
               <p>{result._id}</p>
@@ -50,18 +78,9 @@ const Comics = ({ token }) => {
                 <button>Consulte la fiche de ce comic</button>
               </Link>
               <button
-                onClick={() => {
-                  if (token === null) {
-                    alert("Connectez-vous pour créer une liste de favoris");
-                    navigate("/login");
-                  } else {
-                    if (cart.indexOf(result._id) === -1) {
-                      newCart.push(result._id);
-                      setCart(newCart);
-                    } else {
-                      alert("Ce comic fait déjà parti de vos favoris");
-                    }
-                  }
+                onClick={function (event) {
+                  setIdfav(result._id);
+                  handleFav(event);
                 }}
               >
                 Ajouter à ta liste de favoris
@@ -83,12 +102,14 @@ const Comics = ({ token }) => {
           </div>
         ) : (
           <div>
-            <h2>Votre liste de favoris contient {cart.length} élements</h2>
+            <div>
+              <Fav token={token} offerlist={offerlist} />
+            </div>
             <div className="cart">
               {cart.map((favId) => {
                 return (
                   <div>
-                    {data.results.map((result) => {
+                    {offerlist.results.map((result) => {
                       const imageFav =
                         result.thumbnail.path +
                         "/portrait_small." +
