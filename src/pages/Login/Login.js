@@ -23,6 +23,8 @@ const Login = ({ setUser }) => {
         setUser(response.data.token);
         alert("Vous êtes connecté");
         navigate("/");
+      } else {
+        alert("Adresse e-mail ou mot de passe erroné");
       }
     } catch (error) {}
   };

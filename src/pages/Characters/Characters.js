@@ -25,25 +25,27 @@ const Characters = () => {
   return isLoading === true ? (
     <h1>En cours de chargement</h1>
   ) : (
-    <div className="carousel">
+    <div className="container">
       <h1>Choissisez vos characters préférés</h1>
-
-      {data.results.map((result) => {
-        const imagePath = result.thumbnail.path + "/portrait_fantastic.jpg";
-        return (
-          <Link to={`/character/${result._id}`} key={result._id}>
-            <div className="card">
-              <p>{result._id}</p>
-              <p>{result.title}</p>
-              <img
-                className="character-image"
-                src={imagePath}
-                alt="character-card"
-              />
-            </div>
-          </Link>
-        );
-      })}
+      <div className="carousel">
+        {data.results.map((result) => {
+          const imagePath = result.thumbnail.path + "/portrait_fantastic.jpg";
+          return (
+            <Link to={`/character/${result._id}`} key={result._id}>
+              <div className="card">
+                <h2>{result.name}</h2>
+                <img
+                  className="character-image"
+                  src={imagePath}
+                  alt="character-card"
+                />
+                <h3>Liste de comics</h3>
+                <p>to complete</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 };

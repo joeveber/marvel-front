@@ -6,16 +6,23 @@ const Home = ({ setUser, token }) => {
   const [input, setInput] = useState("");
 
   return (
-    <div>
+    <div className="header">
       <nav>
-        <Link to="/">Home</Link>
-        <Link to="/comics">Comics</Link>
-        <Link to="/characters">Characters</Link>
+        <Link to="/">
+          <p>Home</p>
+        </Link>
+        <Link to="/comics">
+          <p>Comics</p>
+        </Link>
+        <Link to="/characters">
+          <p>Characters</p>
+        </Link>
       </nav>
       <div className="searchbar">
+        <span>Recherche </span>
         <input
           type="text"
-          placeholder="Your Search"
+          placeholder="Pas assez de temps..."
           value={input}
           onChange={(event) => {
             setInput(event.target.value);
@@ -24,9 +31,13 @@ const Home = ({ setUser, token }) => {
       </div>
       <div>
         {token === null ? (
-          <div>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Signup</Link>
+          <div className="login">
+            <Link to="/login">
+              <p>Connexion</p>
+            </Link>
+            <Link to="/signup">
+              <p>Inscription</p>
+            </Link>
           </div>
         ) : (
           <button

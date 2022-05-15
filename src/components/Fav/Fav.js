@@ -64,7 +64,6 @@ const Fav = ({ token, offerlist, idfav }) => {
                         <div>
                           <button
                             className="minus pointer"
-                            /// adding delete button
                             onMouseOver={() => {
                               setIdfavtodelete(result._id);
                             }}

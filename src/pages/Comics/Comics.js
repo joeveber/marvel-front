@@ -11,6 +11,7 @@ const Comics = ({ token }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [idfav, setIdfav] = useState("00000");
 
+  /// --- Adding a favorite
   const handleFav = async (event) => {
     try {
       event.preventDefault();
@@ -31,6 +32,7 @@ const Comics = ({ token }) => {
     }
   };
 
+  /// --- Getting all fav
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,17 +62,16 @@ const Comics = ({ token }) => {
 
           return (
             <div className="card" key={result._id}>
-              <p>{result._id}</p>
-              <p>{result.title}</p>
-              <img
-                className="comic-image"
-                src={imageCarousel}
-                alt="comic-card"
-              />
+              <p className="card-title">{result.title}</p>
               <Link to={`/comic/${result._id}`} key={result._id}>
-                <button>Consulte la fiche de ce comic</button>
+                <img
+                  className="comic-image"
+                  src={imageCarousel}
+                  alt="comic-card"
+                />
               </Link>
               <button
+                className="add-button pointer"
                 onMouseOver={() => {
                   setIdfav(result._id);
                 }}
@@ -78,8 +79,13 @@ const Comics = ({ token }) => {
                   handleFav(event);
                 }}
               >
-                Ajouter à ta liste de favoris
+                +
               </button>
+              <Link to={`/comic/${result._id}`} key={result._id}>
+                <button className="detailed-button pointer">
+                  Consulter la fiche détaillée
+                </button>
+              </Link>
             </div>
           );
         })}
