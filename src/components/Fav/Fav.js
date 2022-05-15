@@ -46,7 +46,7 @@ const Fav = ({ token, offerlist, idfav }) => {
       }
     };
     fetchData();
-  }, [idfav, idfavtodelete]);
+  }, [idfav, idfavtodelete, token]);
 
   return isLoading === true ? (
     <h1>En cours de chargement</h1>
