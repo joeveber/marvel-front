@@ -10,7 +10,9 @@ const Characters = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/characters`);
+        const response = await axios.get(
+          `https://marvel-back-joey.herokuapp.com/characters`
+        );
         setData(response.data);
         setIsLoading(false);
         console.log(response.data);

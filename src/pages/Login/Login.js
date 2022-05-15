@@ -12,10 +12,13 @@ const Login = ({ setUser }) => {
     try {
       event.preventDefault();
 
-      const response = await axios.post(`http://localhost:4000/login`, {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        `https://marvel-back-joey.herokuapp.com/login`,
+        {
+          email: email,
+          password: password,
+        }
+      );
       console.log(response.data);
 
       if (response.data.token) {

@@ -16,10 +16,13 @@ const Comics = ({ token }) => {
     try {
       event.preventDefault();
       console.log(idfav);
-      const response = await axios.post(`http://localhost:4000/fav`, {
-        token: token,
-        idfav: idfav,
-      });
+      const response = await axios.post(
+        `https://marvel-back-joey.herokuapp.com/fav`,
+        {
+          token: token,
+          idfav: idfav,
+        }
+      );
       if (response.data !== "working") {
         alert(response.data);
       }
@@ -36,7 +39,9 @@ const Comics = ({ token }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/comics`);
+        const response = await axios.get(
+          `https://marvel-back-joey.herokuapp.com/comics`
+        );
         setOfferlist(response.data);
         setIsLoading(false);
         console.log(response.data);

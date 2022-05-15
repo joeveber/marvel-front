@@ -12,10 +12,13 @@ const Fav = ({ token, offerlist, idfav }) => {
     try {
       event.preventDefault();
       console.log(idfavtodelete);
-      const response = await axios.post(`http://localhost:4000/deletefav`, {
-        token: token,
-        idfavtodelete: idfavtodelete,
-      });
+      const response = await axios.post(
+        `https://marvel-back-joey.herokuapp.com/deletefav`,
+        {
+          token: token,
+          idfavtodelete: idfavtodelete,
+        }
+      );
       setIdfavtodelete("0");
       console.log(response.data);
     } catch (error) {
@@ -29,9 +32,12 @@ const Fav = ({ token, offerlist, idfav }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(`http://localhost:4000/allfavs`, {
-          token: token,
-        });
+        const response = await axios.post(
+          `https://marvel-back-joey.herokuapp.com/allfavs`,
+          {
+            token: token,
+          }
+        );
         setData(response.data);
         setIsLoading(false);
       } catch (error) {

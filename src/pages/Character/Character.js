@@ -12,7 +12,7 @@ const Character = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/character/${id}`
+          `https://marvel-back-joey.herokuapp.com/character/${id}`
         );
         setData(response.data);
         setIsLoading(false);
@@ -28,14 +28,16 @@ const Character = () => {
   return isLoading === true ? (
     <h1>En cours de chargement</h1>
   ) : (
-    <div className="carousel">
-      <h1>{data.title}</h1>
-      <p>{data.description}</p>
-      <img
-        className="character-image"
-        src={data.thumbnail.path + "/portrait_fantastic.jpg"}
-        alt="character-card"
-      />
+    <div className="container">
+      <div className="card">
+        <h1>{data.name}</h1>
+        <img
+          className="character-image"
+          src={data.thumbnail.path + "/portrait_fantastic.jpg"}
+          alt="character-card"
+        />
+        <p>{data.description}</p>
+      </div>
     </div>
   );
 };
