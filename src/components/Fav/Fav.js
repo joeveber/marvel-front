@@ -2,10 +2,30 @@ import "./Fav.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const Fav = ({ token, offerlist }) => {
+const Fav = ({ token, offerlist, idfav }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  console.log(data);
+  const [idfavtodelete, setIdfavtodelete] = useState("");
+
+  ///
+  const deleteFav = async (event) => {
+    try {
+      event.preventDefault();
+      console.log(idfavtodelete);
+      const response = await axios.post(`http://localhost:4000/deletefav`, {
+        token: token,
+        idfavtodelete: idfavtodelete,
+      });
+      setIdfavtodelete("0");
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      console.log(error.message);
+      console.log(error.response.status);
+    }
+  };
+  ///
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -14,14 +34,13 @@ const Fav = ({ token, offerlist }) => {
         });
         setData(response.data);
         setIsLoading(false);
-        console.log(response.data);
       } catch (error) {
         console.log(error.message);
         console.log(error.response);
       }
     };
     fetchData();
-  }, []);
+  }, [idfav, idfavtodelete]);
 
   return isLoading === true ? (
     <h1>En cours de chargement</h1>
@@ -31,22 +50,26 @@ const Fav = ({ token, offerlist }) => {
       <div className="favbox">
         {data.favs.map((favId) => {
           return (
-            <div>
+            <div key={favId}>
               {offerlist.results.map((result) => {
                 const imageFav =
                   result.thumbnail.path +
                   "/portrait_small." +
                   result.thumbnail.extension;
                 return (
-                  <div>
+                  <div key={result._id}>
                     {favId === result._id && (
                       <div className="fav-carousel">
                         <img className="fav-image" src={imageFav} alt="fav" />
                         <div>
                           <button
                             className="minus pointer"
-                            onClick={() => {
-                              ///// to complete
+                            /// adding delete button
+                            onMouseOver={() => {
+                              setIdfavtodelete(result._id);
+                            }}
+                            onClick={(event) => {
+                              deleteFav(event);
                             }}
                           >
                             <p>-</p>
